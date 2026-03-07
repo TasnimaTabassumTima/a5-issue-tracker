@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- tailwind and daisyui -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- css style -->
+    <style>
+        * {
+            font-family: "Geist", sans-serif;
+        }
+    </style>
+
+</head>
+
+<body>
+    <section>
+        <div class="hero bg-base-200 min-h-screen">
+            <div class="hero-content w-full">
+                <div class="card bg-base-100 w-full max-w-[520px] mx-auto shadow-2xl">
+                    <div class="card-body space-y-6">
+                        <div> <img class="mx-auto" src="./assets/github-logo.png" alt="">
+                            <h2 class="font-semibold text-2xl text-center">GitHub Issues Tracker</h2>
+                            <p class="text-center text-[#64748B]">Sign in to manage your issues</p>
+                        </div>
+                        <fieldset class="fieldset"> <label class="font-bold text-[16px] ">Username</label> <input id="input-username"
+                                type="text" class="input w-full" placeholder="Enter Username" />
+                            <div class="text-[#4A00FF] text-[14px]">Default: admin</div> <label
+                                class="font-bold text-[16px]">Password</label> <input id="input-password" type="password" class="input w-full"
+                                placeholder="Enter Password" />
+                            <div class="text-[#4A00FF] text-[14px]">Default: admin123</div> <button id="btn-signin"
+                                class="btn btn-primary mt-4">Sign In</button>
+                        </fieldset>
+                        <div class="relative">
+                            <hr class="opacity-10"> <span class="absolute -top-2.5 left-[50%] bg-white px-2">OR</span>
+                        </div>
+                        <p class="text-[#64748B] text-[14px] text-center">Demo Credentials:</p>
+                        <div class="text-center bg-[#F8FAFC] py-6">
+                            <p><span class="font-bold">Username: </span>admin</p>
+                            <p><span class="font-bold">Password: </span>admin123</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="./script/script.js"></script>
+</body>
+
+</html>
