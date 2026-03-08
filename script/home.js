@@ -2,7 +2,7 @@
 const allBtn = document.getElementById("btn-all");
 const openBtn = document.getElementById("btn-open");
 const closedBtn = document.getElementById("btn-closed");
-const IssueCounter = document.getElementById("issue-counter");
+const issueCounter = document.getElementById("issue-counter");
 const open = document.getElementById("open");
 const all = document.getElementById("all");
 const closed = document.getElementById("closed");
@@ -65,16 +65,6 @@ const labelsMapper = (labels) => {
 
     return html;
 }
-
-/* 
-<span class="bg-[#FEECEC] px-2 py-1 rounded-3xl text-[#EF4444] border"><i class="fa-solid fa-bug"></i>BUG</span>
-
-                        <span class="bg-[#FFF8DB] px-2 py-1 rounded-3xl text-[#D97706] border "><i class="fa-solid fa-helicopter-symbol"></i>HELP WANTED</span>
-
-                        <span class="bg-[#BBF7D0] px-2 py-1 rounded-3xl text-[#00A96E] border "><i class="fa-solid fa-wand-magic-sparkles"></i>ENHANCEMENT</span>
-
-                        `<span class="bg-[#f4d352] px-2 py-1 rounded-3xl text-[#EF4444] border "><i class="fa-regular fa-star"></i>ENHANCEMENT</span>`
-*/
 
 const displayDetails = (data) => {
     const details = document.getElementById("card_details");
@@ -167,7 +157,7 @@ allBtn.addEventListener('click', function(){
 
     const allIssueContainer = document.getElementById("all-issue-container");
     const allCardNumber = allIssueContainer.children.length;
-    IssueCounter.innerText = allCardNumber;
+    issueCounter.innerText = allCardNumber;
 
     all.classList.remove("hidden");
     open.classList.add("hidden");
@@ -186,7 +176,7 @@ openBtn.addEventListener('click', function(){
 
     const openIssueContainer = document.getElementById("open-issue-container");
     const openCardNumber = openIssueContainer.children.length;
-    IssueCounter.innerText = openCardNumber;
+    issueCounter.innerText = openCardNumber;
 
     all.classList.add("hidden");
     open.classList.remove("hidden");
@@ -205,7 +195,7 @@ closedBtn.addEventListener('click', function(){
 
     const closedIssueContainer = document.getElementById("closed-issue-container");
     const closedCardNumber = closedIssueContainer.children.length;
-    IssueCounter.innerText = closedCardNumber;
+    issueCounter.innerText = closedCardNumber;
 
     all.classList.add("hidden");
     open.classList.add("hidden");
@@ -233,6 +223,8 @@ document.getElementById("search").addEventListener('click',() => {
         openBtn.classList.remove("btn-primary");
         closedBtn.classList.remove("btn-primary");
         allBtn.classList.remove("btn-primary");
+
+        issueCounter.innerText = filterCards.length;
 
     });
 });
