@@ -23,6 +23,7 @@ const manageSpinner = (status) =>
         all.classList.add("hidden");
         open.classList.add("hidden");
         closed.classList.add("hidden");
+        searchContainer.classList.add("hidden");
     }
     else{
         spinner.classList.add("hidden");
@@ -277,9 +278,9 @@ const displayIssue = (issues, flag) => {
 
 allBtn.addEventListener('click', function(){
     loadIssue();
-    openBtn.classList.remove("btn-primary");
-    closedBtn.classList.remove("btn-primary");
-    allBtn.classList.add("btn-primary");
+    openBtn.classList.remove("btn-primary", "btn-active");
+    closedBtn.classList.remove("btn-primary", "btn-active");
+    allBtn.classList.add("btn-primary", "btn-active");
 
     const allCardNumber = allIssueContainer.children.length;
     issueCounter.innerText = allCardNumber;
@@ -291,9 +292,9 @@ allBtn.addEventListener('click', function(){
 });
 
 openBtn.addEventListener('click', function(){
-    allBtn.classList.remove("btn-primary");
-    closedBtn.classList.remove("btn-primary");
-    openBtn.classList.add("btn-primary");
+    allBtn.classList.remove("btn-primary", "btn-active");
+    closedBtn.classList.remove("btn-primary", "btn-active");
+    openBtn.classList.add("btn-primary", "btn-active");
 
     const openCardNumber = openIssueContainer.children.length;
     issueCounter.innerText = openCardNumber;
@@ -305,9 +306,9 @@ openBtn.addEventListener('click', function(){
 });
 
 closedBtn.addEventListener('click', function(){
-    allBtn.classList.remove("btn-primary");
-    openBtn.classList.remove("btn-primary");
-    closedBtn.classList.add("btn-primary");
+    allBtn.classList.remove("btn-primary", "btn-active");
+    openBtn.classList.remove("btn-primary", "btn-active");
+    closedBtn.classList.add("btn-primary", "btn-active");
 
     const closedCardNumber = closedIssueContainer.children.length;
     issueCounter.innerText = closedCardNumber;
