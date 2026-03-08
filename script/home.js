@@ -1,4 +1,33 @@
+// get buttons
+const allBtn = document.getElementById("btn-all");
+const openBtn = document.getElementById("btn-open");
+const closedBtn = document.getElementById("btn-closed");
+const IssueCounter = document.getElementById("issue-counter");
+const open = document.getElementById("open");
+const all = document.getElementById("all");
+const closed = document.getElementById("closed");
+const openDot = document.getElementById("open-dot");
+const closedDot = document.getElementById("closed-dot");
+
+const manageSpinner = (status) =>
+{
+    const spinner = document.getElementById("spinner");
+    if(status === true){
+        spinner.classList.remove("hidden");
+        all.classList.add("hidden");
+        open.classList.add("hidden");
+        closed.classList.add("hidden");
+    }
+    else{
+        spinner.classList.add("hidden");
+        all.classList.remove("hidden");
+        open.classList.remove("hidden");
+        closed.classList.remove("hidden");
+    }
+};
+
 const loadIssue = async() => {
+    manageSpinner(true);
     const url =  "https://phi-lab-server.vercel.app/api/v1/lab/issues";
     const res = await fetch(url);
     const data = await res.json();
@@ -78,9 +107,12 @@ const displayDetails = (data) => {
             </div>
         </div>
     `;
+
+    manageSpinner(false);
 };
 
 const details = async(id) => {
+    manageSpinner(true);
     document.getElementById("card_details").showModal();
     const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
     const res = await fetch(url);
@@ -97,7 +129,7 @@ const displayIssue = (issues) => {
     issues.forEach(issue => {
         const div = document.createElement('div');
         div.innerHTML = `
-                <div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow space-y-3 cursor-pointer">
+                <div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow space-y-3 cursor-pointer h-[230px]">
                     <div class="flex justify-between">
                         ${issue.priority === 'low' ? `<img class="w-7 h-7" src="./assets/Closed- Status .png" alt="">` : `<img class="w-7 h-7" src="./assets/Open-Status.png" alt="">`}
 
@@ -124,21 +156,11 @@ const displayIssue = (issues) => {
             openIssueContainer.appendChild(copyOpenCard);
         }    
     });
-    
+    manageSpinner(false);
 };
 
-// get buttons
-const allBtn = document.getElementById("btn-all");
-const openBtn = document.getElementById("btn-open");
-const closedBtn = document.getElementById("btn-closed");
-const IssueCounter = document.getElementById("issue-counter");
-const open = document.getElementById("open");
-const all = document.getElementById("all");
-const closed = document.getElementById("closed");
-const openDot = document.getElementById("open-dot");
-const closedDot = document.getElementById("closed-dot");
-
 allBtn.addEventListener('click', function(){
+    manageSpinner(true);
     openBtn.classList.remove("btn-primary");
     closedBtn.classList.remove("btn-primary");
     allBtn.classList.add("btn-primary");
@@ -153,9 +175,11 @@ allBtn.addEventListener('click', function(){
 
     openDot.classList.remove("bg-[#4A00FF]");
     closedDot.classList.remove("bg-[#4A00FF]");
+    manageSpinner(false);
 });
 
 openBtn.addEventListener('click', function(){
+    manageSpinner(true);
     allBtn.classList.remove("btn-primary");
     closedBtn.classList.remove("btn-primary");
     openBtn.classList.add("btn-primary");
@@ -170,9 +194,11 @@ openBtn.addEventListener('click', function(){
 
     openDot.classList.add("bg-[#4A00FF]");
     closedDot.classList.remove("bg-[#4A00FF]");
+    manageSpinner(false);
 });
 
 closedBtn.addEventListener('click', function(){
+    manageSpinner(true);
     allBtn.classList.remove("btn-primary");
     openBtn.classList.remove("btn-primary");
     closedBtn.classList.add("btn-primary");
@@ -187,6 +213,7 @@ closedBtn.addEventListener('click', function(){
 
     openDot.classList.remove("bg-[#4A00FF]");
     closedDot.classList.add("bg-[#4A00FF]");
+    manageSpinner(false);
 });
 
 loadIssue();
@@ -199,7 +226,6 @@ document.getElementById("search").addEventListener('click',() => {
     .then((res) => res.json())
     .then((data) => {
         const allCards = data.data;
-        // console.log(allCards);
         const filterCards = allCards.filter(card => card.title.toLowerCase().includes(searchValue));
 
         displayIssue(filterCards);
