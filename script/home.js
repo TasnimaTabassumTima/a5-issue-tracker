@@ -192,5 +192,16 @@ closedBtn.addEventListener('click', function(){
 loadIssue();
 
 document.getElementById("search").addEventListener('click',() => {
+    const input = document.getElementById("input-search");
+    const searchValue = input.value.trim().toLowerCase();
 
+    fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
+    .then((res) => res.json())
+    .then((data) => {
+        const allCards = data.data;
+        // console.log(allCards);
+        const filterCards = allCards.filter(card => card.title.toLowerCase().includes(searchValue));
+
+        displayIssue(filterCards);
+    });
 });
