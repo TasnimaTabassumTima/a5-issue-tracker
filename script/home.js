@@ -47,11 +47,45 @@ const labelsMapper = (labels) => {
                         `<span class="bg-[#f4d352] px-2 py-1 rounded-3xl text-[#EF4444] border "><i class="fa-regular fa-star"></i>ENHANCEMENT</span>`
 */
 
+const displayDetails = (data) => {
+    const details = document.getElementById("card_details");
+    details.innerHTML = `
+    <div class="modal-box space-y-6">
+            <div class="space-y-2">
+                <h2 class="font-bold text-2xl text-[#1F2937]">${data.title}</h2>
+                <div class="flex flex-wrap items-center space-x-2">
+                    <button class="btn btn-success rounded-full text-[12px] text-[#FFFF]">${data.status === "open" ? "Opened" : "Closed"}</button>
+                    <p class="text-[#64748B] text-[12px]"><div id="closed-dot" class="w-2 h-2 bg-[#585559] rounded-full"></div> Opened by ${data.assignee}</p>
+                    <p class="text-[#64748B] text-[12px]"><div id="closed-dot" class="w-2 h-2 bg-[#585559] rounded-full"></div> ${data.createdAt[5]}${data.createdAt[6]}/${data.createdAt[8]}${data.createdAt[9]}/${data.createdAt[0]}${data.createdAt[1]}${data.createdAt[2]}${data.createdAt[3]}</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-1">${labelsMapper(data.labels)}</div>
+            <p class="text-[#64748B] text-[16px]">${data.description}</p>
+            <div class="flex items-center bg-[#F8FAFC] p-4 space-x-3">
+                <div class="w-[50%]">
+                    <p class="text-[#64748B]">Assignee:</p>
+                    <h2 class="font-bold">${data.assignee}</h2>
+                </div>
+                <div class="w-[50%]">
+                    <p class="text-[#64748B]">Priority:</p>
+                    <button class="btn btn-error rounded-full text-[#FFFF] px-4 py-[6px]">${data.priority.toUpperCase()}</button>
+                </div>
+            </div>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-primary">Close</button>
+                </form>
+            </div>
+        </div>
+    `;
+};
+
 const details = async(id) => {
+    document.getElementById("card_details").showModal();
     const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
+    displayDetails(data.data);
 };
 
 const displayIssue = (issues) => {
@@ -59,6 +93,7 @@ const displayIssue = (issues) => {
     const openIssueContainer = document.getElementById("open-issue-container");
     const closedIssueContainer = document.getElementById("closed-issue-container");
     allIssueContainer.innerHTML = "";
+
     issues.forEach(issue => {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -74,10 +109,9 @@ const displayIssue = (issues) => {
                     <p class="text-[#64748B] text-xs line-clamp-2">${issue.description}</p>
                     <div class="flex flex-wrap gap-1">${labelsMapper(issue.labels)}</div>
                 </div>
-                <div class="p-4 bg-base-200 shadow">
-                    <p class="text-xs text-[#64748B]">#1
-by john_doe</p>
-                    <p class="text-xs text-[#64748B]">1/15/2024</p>
+                <div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow">
+                    <p class="text-xs text-[#64748B]">#${issue.id} by ${issue.author}</p>
+                    <p class="text-xs text-[#64748B]">${issue.createdAt[5]}${issue.createdAt[6]}/${issue.createdAt[8]}${issue.createdAt[9]}/${issue.createdAt[0]}${issue.createdAt[1]}${issue.createdAt[2]}${issue.createdAt[3]}</p>
                 </div>
         `;
         allIssueContainer.appendChild(div);
@@ -155,5 +189,8 @@ closedBtn.addEventListener('click', function(){
     closedDot.classList.add("bg-[#4A00FF]");
 });
 
-
 loadIssue();
+
+document.getElementById("search").addEventListener('click',() => {
+
+});
