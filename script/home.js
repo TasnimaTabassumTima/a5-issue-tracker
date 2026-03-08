@@ -203,5 +203,10 @@ document.getElementById("search").addEventListener('click',() => {
         const filterCards = allCards.filter(card => card.title.toLowerCase().includes(searchValue));
 
         displayIssue(filterCards);
+
+        openBtn.classList.remove("btn-primary");
+        closedBtn.classList.remove("btn-primary");
+        allBtn.classList.remove("btn-primary");
+
     });
 });
