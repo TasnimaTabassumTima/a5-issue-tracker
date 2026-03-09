@@ -8,7 +8,9 @@ document.getElementById("btn-signin").addEventListener('click', function(){
     if(username === "admin" && password === "admin123")
     {
         alert("Login Successfull");
-        window.location.replace("../home.html");
+        window.location.assign("https://tasnimatabassumtima.github.io/a5-issue-tracker/home.html");        
+        // window.location.assign("../home.html");        
+
     }
     else{
         alert("Login Faild");
