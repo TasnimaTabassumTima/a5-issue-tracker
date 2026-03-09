@@ -13,11 +13,11 @@ const closed = document.getElementById("closed");
 const searchContainer = document.getElementById("search-container");
 const openDot = document.getElementById("open-dot");
 const closedDot = document.getElementById("closed-dot");
+const spinner = document.getElementById("spinner");
 
 
-const manageSpinner = (status) =>
+const manageSpinner = (status, flag) =>
 {
-    const spinner = document.getElementById("spinner");
     if(status === true){
         spinner.classList.remove("hidden");
         all.classList.add("hidden");
@@ -25,16 +25,28 @@ const manageSpinner = (status) =>
         closed.classList.add("hidden");
         searchContainer.classList.add("hidden");
     }
-    else{
+    else if(status === false && flag === "all"){
         spinner.classList.add("hidden");
         all.classList.remove("hidden");
+        // open.classList.remove("hidden");
+        // closed.classList.remove("hidden");
+    }
+    else if(status === false && flag === "open"){
+        spinner.classList.add("hidden");
         open.classList.remove("hidden");
+    }
+    else if(status === false && flag === "closed"){
+        spinner.classList.add("hidden");
         closed.classList.remove("hidden");
+    }
+    else{
+        spinner.classList.add("hidden");
+        all.classList.remove("hidden")
     }
 };
 
 const loadIssue = async() => {
-    manageSpinner(true);
+    manageSpinner(true, "..");
     const url =  "https://phi-lab-server.vercel.app/api/v1/lab/issues";
     const res = await fetch(url);
     const data = await res.json();
@@ -164,119 +176,49 @@ const displayIssue = (issues, flag) => {
                     </div>`;
             } 
 
-            if(flag === true){
+           /*  if(flag === true){
+                const copyClosedCard = div.cloneNode(true);
+                const copyOpenCard = div.cloneNode(true);
+
                 allIssueContainer.appendChild(div);
                 if((issue.status) === 'closed'){
-                    const copyClosedCard = div.cloneNode(true);
+                    // const copyAllCard = div.cloneNode(true);
+                    // allIssueContainer.appendChild(copyAllCard);
+
+                    // const copyClosedCard = div.cloneNode(true);
                     closedIssueContainer.appendChild(copyClosedCard);
                 }
                 else{
-                    const copyOpenCard = div.cloneNode(true);
+                    // const copyAllCard = div.cloneNode(true);
+                    // allIssueContainer.appendChild(copyAllCard);
+
+                    // const copyOpenCard = div.cloneNode(true);
                     openIssueContainer.appendChild(copyOpenCard);
                 } 
+            } */
+            
+            const copyAllCard = div.cloneNode(true);
+            const copyClosedCard = div.cloneNode(true);
+            const copyOpenCard = div.cloneNode(true);
+
+            if(flag === true && (issue.status) === 'closed'){ 
+                allIssueContainer.appendChild(copyAllCard);
+                closedIssueContainer.appendChild(copyClosedCard);
             }
+            else if(flag === true && (issue.status) === 'open'){
+                allIssueContainer.appendChild(copyAllCard);
+                openIssueContainer.appendChild(copyOpenCard);
+            }     
             else{
                 const copySearchCard = div.cloneNode(true);
                 searchIssueContainer.appendChild(copySearchCard);
             }
         });
-
-   /*  if(flag === true){
-        issues.forEach(issue => {
-            const div = document.createElement('div');
-            if((issue.status) === 'closed'){
-                div.innerHTML = `<div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow space-y-3 cursor-pointer h-[230px] rounded-md border-t-4 border-purple-500">
-                        <div class="flex justify-between">
-                            ${issue.priority === 'low' ? `<img class="w-7 h-7" src="./assets/Closed- Status .png" alt="">` : `<img class="w-7 h-7" src="./assets/Open-Status.png" alt="">`}
-    
-                            ${issue.priority === 'low' ? `<span class="bg-[#ece4e4] px-6 py-1 rounded-3xl text-[#828080]">${issue.priority.toUpperCase()}</span>` : `<span class="bg-[#FEECEC] px-6 py-1 rounded-3xl text-[#EF4444]">${issue.priority.toUpperCase()}</span>`}
-                            
-                            
-                        </div>
-                        <h2 class="font-semibold text-[14px] text-[#1F2937]">${issue.title}</h2>
-                        <p class="text-[#64748B] text-xs line-clamp-2">${issue.description}</p>
-                        <div class="flex flex-wrap gap-1">${labelsMapper(issue.labels)}</div>
-                    </div>
-                    <div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow">
-                        <p class="text-xs text-[#64748B]">#${issue.id} by ${issue.author}</p>
-                        <p class="text-xs text-[#64748B]">${issue.createdAt[5]}${issue.createdAt[6]}/${issue.createdAt[8]}${issue.createdAt[9]}/${issue.createdAt[0]}${issue.createdAt[1]}${issue.createdAt[2]}${issue.createdAt[3]}</p>
-                    </div>`;
-            }
-            else{
-                div.innerHTML = `<div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow space-y-3 cursor-pointer h-[230px] rounded-md border-t-4 border-green-500">
-                        <div class="flex justify-between">
-                            ${issue.priority === 'low' ? `<img class="w-7 h-7" src="./assets/Closed- Status .png" alt="">` : `<img class="w-7 h-7" src="./assets/Open-Status.png" alt="">`}
-    
-                            ${issue.priority === 'low' ? `<span class="bg-[#ece4e4] px-6 py-1 rounded-3xl text-[#828080]">${issue.priority.toUpperCase()}</span>` : `<span class="bg-[#FEECEC] px-6 py-1 rounded-3xl text-[#EF4444]">${issue.priority.toUpperCase()}</span>`}
-                            
-                            
-                        </div>
-                        <h2 class="font-semibold text-[14px] text-[#1F2937]">${issue.title}</h2>
-                        <p class="text-[#64748B] text-xs line-clamp-2">${issue.description}</p>
-                        <div class="flex flex-wrap gap-1">${labelsMapper(issue.labels)}</div>
-                    </div>
-                    <div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow">
-                        <p class="text-xs text-[#64748B]">#${issue.id} by ${issue.author}</p>
-                        <p class="text-xs text-[#64748B]">${issue.createdAt[5]}${issue.createdAt[6]}/${issue.createdAt[8]}${issue.createdAt[9]}/${issue.createdAt[0]}${issue.createdAt[1]}${issue.createdAt[2]}${issue.createdAt[3]}</p>
-                    </div>`;
-            } 
-            allIssueContainer.appendChild(div);
-            if((issue.status) === 'closed'){
-                const copyClosedCard = div.cloneNode(true);
-                closedIssueContainer.appendChild(copyClosedCard);
-            }
-            else{
-                const copyOpenCard = div.cloneNode(true);
-                openIssueContainer.appendChild(copyOpenCard);
-            } 
-        });
-    }
-    else{
-        issues.forEach(issue => {
-            const div = document.createElement('div');
-            if((issue.status) === 'closed'){
-                div.innerHTML = `<div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow space-y-3 cursor-pointer h-[230px] rounded-md border-t-4 border-purple-500">
-                        <div class="flex justify-between">
-                            ${issue.priority === 'low' ? `<img class="w-7 h-7" src="./assets/Closed- Status .png" alt="">` : `<img class="w-7 h-7" src="./assets/Open-Status.png" alt="">`}
-    
-                            ${issue.priority === 'low' ? `<span class="bg-[#ece4e4] px-6 py-1 rounded-3xl text-[#828080]">${issue.priority.toUpperCase()}</span>` : `<span class="bg-[#FEECEC] px-6 py-1 rounded-3xl text-[#EF4444]">${issue.priority.toUpperCase()}</span>`}
-                            
-                            
-                        </div>
-                        <h2 class="font-semibold text-[14px] text-[#1F2937]">${issue.title}</h2>
-                        <p class="text-[#64748B] text-xs line-clamp-2">${issue.description}</p>
-                        <div class="flex flex-wrap gap-1">${labelsMapper(issue.labels)}</div>
-                    </div>
-                    <div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow">
-                        <p class="text-xs text-[#64748B]">#${issue.id} by ${issue.author}</p>
-                        <p class="text-xs text-[#64748B]">${issue.createdAt[5]}${issue.createdAt[6]}/${issue.createdAt[8]}${issue.createdAt[9]}/${issue.createdAt[0]}${issue.createdAt[1]}${issue.createdAt[2]}${issue.createdAt[3]}</p>
-                    </div>`;
-            }
-            else{
-                div.innerHTML = `<div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow space-y-3 cursor-pointer h-[230px] rounded-md border-t-4 border-green-500">
-                        <div class="flex justify-between">
-                            ${issue.priority === 'low' ? `<img class="w-7 h-7" src="./assets/Closed- Status .png" alt="">` : `<img class="w-7 h-7" src="./assets/Open-Status.png" alt="">`}
-    
-                            ${issue.priority === 'low' ? `<span class="bg-[#ece4e4] px-6 py-1 rounded-3xl text-[#828080]">${issue.priority.toUpperCase()}</span>` : `<span class="bg-[#FEECEC] px-6 py-1 rounded-3xl text-[#EF4444]">${issue.priority.toUpperCase()}</span>`}
-                            
-                            
-                        </div>
-                        <h2 class="font-semibold text-[14px] text-[#1F2937]">${issue.title}</h2>
-                        <p class="text-[#64748B] text-xs line-clamp-2">${issue.description}</p>
-                        <div class="flex flex-wrap gap-1">${labelsMapper(issue.labels)}</div>
-                    </div>
-                    <div onclick="details(${issue.id});" class="p-4 bg-base-200 shadow">
-                        <p class="text-xs text-[#64748B]">#${issue.id} by ${issue.author}</p>
-                        <p class="text-xs text-[#64748B]">${issue.createdAt[5]}${issue.createdAt[6]}/${issue.createdAt[8]}${issue.createdAt[9]}/${issue.createdAt[0]}${issue.createdAt[1]}${issue.createdAt[2]}${issue.createdAt[3]}</p>
-                    </div>`;
-            } 
-            searchIssueContainer.appendChild(div);
-        });
-    } */
-    manageSpinner(false);
+    manageSpinner(false, "all");
 };
 
 allBtn.addEventListener('click', function(){
+    manageSpinner(true, "..");
     loadIssue();
     openBtn.classList.remove("btn-primary", "btn-active");
     closedBtn.classList.remove("btn-primary", "btn-active");
@@ -289,9 +231,11 @@ allBtn.addEventListener('click', function(){
     open.classList.add("hidden");
     closed.classList.add("hidden");
     searchContainer.classList.add("hidden");
+    manageSpinner(false, "all");
 });
 
 openBtn.addEventListener('click', function(){
+    manageSpinner(true, "..");
     allBtn.classList.remove("btn-primary", "btn-active");
     closedBtn.classList.remove("btn-primary", "btn-active");
     openBtn.classList.add("btn-primary", "btn-active");
@@ -303,9 +247,11 @@ openBtn.addEventListener('click', function(){
     open.classList.remove("hidden");
     closed.classList.add("hidden");
     searchContainer.classList.add("hidden");
+    manageSpinner(false, "open");
 });
 
 closedBtn.addEventListener('click', function(){
+    manageSpinner(true, "..");
     allBtn.classList.remove("btn-primary", "btn-active");
     openBtn.classList.remove("btn-primary", "btn-active");
     closedBtn.classList.add("btn-primary", "btn-active");
@@ -317,6 +263,7 @@ closedBtn.addEventListener('click', function(){
     open.classList.add("hidden");
     closed.classList.remove("hidden");
     searchContainer.classList.add("hidden");
+    manageSpinner(false, "closed");
 });
 
 loadIssue();
